@@ -10,6 +10,7 @@ import {useParams} from 'react-router-dom'
 import db from './firebase.js'
 import { useStateValue } from './StateProvider'
 import firebase from 'firebase'
+import {NavLink} from 'react-router-dom'
 
 
 function Chat() {
@@ -19,11 +20,13 @@ function Chat() {
     const [roomName,setRoomName] = useState("")
     const [messages, setMessages] = useState([])
     const [{user}, dispatch] = useStateValue()
+    const [createdAt,setCreatedAt] = useState("")
 
     useEffect(()=>{
         if(roomId){
             db.collection('rooms').doc(roomId).onSnapshot(snapshot => {
               setRoomName(snapshot.data().name);
+              setCreatedAt( new Date(snapshot.data().createdAt.toDate()).toString())
           });
           
           db.collection('rooms').doc(roomId).collection("messages").orderBy("timestamp","asc").onSnapshot(snapshot => {
@@ -32,6 +35,9 @@ function Chat() {
           
         }
     },[roomId])
+
+
+    console.log(createdAt)
 
     const sendMessage = (e) =>{
       e.preventDefault();
@@ -45,18 +51,30 @@ function Chat() {
     }
 
 
+ 
+
     return (
       <div className="chat">
+
+
         <div className="chat__header">
-          <Avatar />
+          <Avatar src={ `https://joeschmoe.io/api/v1/${roomName}`}/>
           <div className="chat__headerInfo">
+        <NavLink exact to={{
+            pathname:`/rooms/${roomId}/groupInfo`,
+            state: {roomId,roomName,createdAt}  
+          }}>
           <h3 className='chat-room-name'>{roomName}</h3>
                     <p className='chat-room-last-seen'>
                         Last seen {" "}
-                        {
-                        new Date(messages[messages.length - 1]?.timestamp?.toDate()).toLocaleTimeString()
-                        }
+                        {( messages.length !== 0 )?( 
+                          new Date(messages[messages.length - 1]?.timestamp?.toDate()).toLocaleTimeString()
+                          ):(
+                            "....."
+                            )
+                          }
                     </p>
+            </NavLink>
           </div>
 
           <div className="chat__headerRight">
@@ -78,7 +96,7 @@ function Chat() {
 
           {messages.map(message=>(
               
-              <p className={`chat__message ${ message.name === user.displayName && 'chat__reciever'}`}>
+              <p className={`chat__message ${ message.name === user?.displayName && 'chat__reciever'}`}>
                <span className="chat__name">
                    {message.name}
                </span>

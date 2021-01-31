@@ -1,15 +1,16 @@
-import React,{useState} from 'react'
+import React from 'react'
 import './App.css';
 import Sidebar from './Sidebar.js'
 import Chat from './Chat.js'
 import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
 import Login from './Login';
 import {useStateValue} from './StateProvider';
+import GroupInfo from './GroupInfo'
 
 function App() {
 
   const [{user}, dispatch] = useStateValue();
-
+ 
   return (  
     <div className="app">
        {!user ? (
@@ -19,15 +20,19 @@ function App() {
             <Router>
                   <Sidebar/>
               <Switch>
-                  <Route path="/rooms/:roomId">
+                  <Route exact path="/rooms/:roomId">
                     <Chat/>
                   </Route>
 
-                  <Route path="/">
+      
+                  <Route exact path="/rooms/:roomId/groupInfo">
                       <Chat/>
+                      <GroupInfo/>
                   </Route>  
               
               </Switch>
+
+
             </Router>
 
         </div>

@@ -8,6 +8,7 @@ import SidebarChat from './SidebarChat'
 import "./Sidebar.css";
 import db from './firebase.js'
 import { useStateValue } from './StateProvider';
+import SimpleMenu from './SimpleMenu'
 
 function Sidebar() {
     
@@ -53,9 +54,9 @@ function Sidebar() {
                     <ChatIcon/>
                 </IconButton> 
                 
-                <IconButton>
-                    <MoreVertIcon/>
-                </IconButton>
+               
+                <SimpleMenu/>
+            
     
           </div>
       </div>
