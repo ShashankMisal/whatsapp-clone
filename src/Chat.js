@@ -41,6 +41,8 @@ function Chat() {
 
     const sendMessage = (e) =>{
       e.preventDefault();
+      if(input!="")
+      {
       db.collection('rooms').doc(roomId).collection('messages').add({
         message: input,
         name: user.displayName,
@@ -48,6 +50,7 @@ function Chat() {
     })
 
       setInput("")
+      }
     }
 
 
@@ -98,9 +101,9 @@ function Chat() {
               
               <p className={`chat__message ${ message.name === user?.displayName && 'chat__reciever'}`}>
                <span className="chat__name">
-                   {message.name}
+                   {message.name.substring(0,11)+"..."}
                </span>
-              {message.message}
+              {message.message + "   "}
                <span className="chat__timeStamp">
                    {new Date(message.timestamp?.toDate()).toLocaleTimeString()}
                </span>
