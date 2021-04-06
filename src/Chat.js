@@ -19,7 +19,7 @@ function Chat() {
     const {roomId} = useParams();
     const [roomName,setRoomName] = useState("")
     const [messages, setMessages] = useState([])
-    const [{user}, dispatch] = useStateValue()
+    const [{user}] = useStateValue()
     const [createdAt,setCreatedAt] = useState("")
 
     useEffect(()=>{
@@ -37,11 +37,11 @@ function Chat() {
     },[roomId])
 
 
-    console.log(createdAt)
+   
 
     const sendMessage = (e) =>{
       e.preventDefault();
-      if(input!="")
+      if(input!=="")
       {
       db.collection('rooms').doc(roomId).collection('messages').add({
         message: input,
@@ -97,9 +97,9 @@ function Chat() {
 
         <div className="chat__body">
 
-          {messages.map(message=>(
+          {messages.map((message,index)=>(
               
-              <p className={`chat__message ${ message.name === user?.displayName && 'chat__reciever'}`}>
+              <p key={index} className={`chat__message ${ message.name === user?.displayName && 'chat__reciever'}`}>
                <span className="chat__name">
                    {message.name.substring(0,11)+"..."}
                </span>

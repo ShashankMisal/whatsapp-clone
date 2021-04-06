@@ -9,7 +9,7 @@ import { actionTypes } from './reducer';
 
 export default function SimpleMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [{user}, dispatch] = useStateValue();
+  const [,dispatch] = useStateValue();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

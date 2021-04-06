@@ -7,7 +7,7 @@ import { useStateValue } from './StateProvider';
 
 function Login() {
 
-    const [state,dispatch] = useStateValue();
+    const [,dispatch] = useStateValue();
     
     useEffect(()=>{
         auth.onAuthStateChanged((user) => {
@@ -21,7 +21,7 @@ function Login() {
     const signIn = () => {
            auth.signInWithPopup(provider)
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 dispatch({
                     type: actionTypes.SET_USER,
                     user: result.user,
