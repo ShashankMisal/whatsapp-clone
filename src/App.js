@@ -15,7 +15,6 @@ function App() {
 
       <div className="app__body">
 
-
         <Route exact path="/">
           <Login />
         </Route>
