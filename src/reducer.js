@@ -1,28 +1,26 @@
 export const initialState = {
     user:null,
-    nouser:null
-};
-
-export const actionTypes = {
-    SET_USER : "SET_USER",
-    Logout: "Logout"
+    isAuthenticated:false
 };
 
 const reducer = (state, action) => {
     switch(action.type){
-        case actionTypes.SET_USER:
+        case "SET_USER":
             return {
-                user: action.user,
-            };
+                user: action.value,
+                isAuthenticated:true
+            }
         
-            case actionTypes.Logout:
-                return{
-                    user:action.nouser
-                }
+        case "Logout":
+            return {
+                user: action.value,
+                isAuthenticated:false
+            }
 
         default:
-            return state;
+            return state
     }
 };
 
-export default reducer;
+
+export default reducer

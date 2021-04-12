@@ -6,11 +6,10 @@ import MicIcon from '@material-ui/icons/Mic';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import NavigationOutlinedIcon from '@material-ui/icons/NavigationOutlined';
 import { Button } from '@material-ui/core';
-import {useParams} from 'react-router-dom'
 import db from './firebase.js'
 import { useStateValue } from './StateProvider'
-import firebase from 'firebase'
-import {NavLink} from 'react-router-dom'
+import firebase from "firebase/app";
+import {NavLink, useParams, useRouteMatch} from 'react-router-dom'
 
 
 function Chat() {
@@ -21,6 +20,7 @@ function Chat() {
     const [messages, setMessages] = useState([])
     const [{user}] = useStateValue()
     const [createdAt,setCreatedAt] = useState("")
+    const {url} = useRouteMatch()
 
     useEffect(()=>{
         if(roomId){
@@ -64,7 +64,7 @@ function Chat() {
           <Avatar src={ `https://joeschmoe.io/api/v1/${roomName}`}/>
           <div className="chat__headerInfo">
         <NavLink exact to={{
-            pathname:`/rooms/${roomId}/groupInfo`,
+            pathname:`${url}/groupInfo`,
             state: {roomId,roomName,createdAt}  
           }}>
           <h3 className='chat-room-name'>{roomName}</h3>

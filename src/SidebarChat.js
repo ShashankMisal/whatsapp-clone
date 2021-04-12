@@ -2,13 +2,16 @@ import React,{useEffect ,useState} from 'react'
 import {Avatar} from '@material-ui/core'
 import "./SidebarChat.css"
 import db from './firebase'
-import {NavLink} from 'react-router-dom'
-import firebase from 'firebase'
+import {NavLink ,useRouteMatch} from 'react-router-dom'
+import firebase from "firebase/app";
 
 
 function SidebarChat({id,name,addNewChat}) {
 
     const [messages, setMessages] = useState("");
+    const {url} = useRouteMatch();
+
+
 
     useEffect(() => {
         if(id){
@@ -18,7 +21,7 @@ function SidebarChat({id,name,addNewChat}) {
         }
     }, [id]);
 
-
+   
 
     const createChat = () => {
         const roomName = prompt("Please Enter a Name for New Group");
@@ -38,9 +41,9 @@ function SidebarChat({id,name,addNewChat}) {
 
     return !addNewChat?(
 
-      <NavLink to={`/rooms/${id}`} activeClassName="selected">
+      <NavLink to={`${url}/${id}`} activeClassName="selected">
         <div className="sidebarChat">
-            <Avatar src={ `https://joeschmoe.io/api/v1/${name}`} />
+            <Avatar src={`https://joeschmoe.io/api/v1/${name}`} />
             <div className="sidebarChat__info">
                 <h2>{name}</h2>
                 <p>{messages[0]?.name.substring(0,8)}... {" "}:{" "}{messages[0]?.message}</p>

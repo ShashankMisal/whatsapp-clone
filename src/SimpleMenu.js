@@ -5,11 +5,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {auth} from './firebase';
 import {useStateValue} from './StateProvider';
-import { actionTypes } from './reducer';
+import { useHistory } from "react-router-dom";
+
 
 export default function SimpleMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [,dispatch] = useStateValue();
+  const history = useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -19,9 +21,13 @@ export default function SimpleMenu() {
     setAnchorEl(null);
   };
 
+
   const handleLogout= ()=> {
     auth.signOut().then(() => {
-            dispatch({type:actionTypes.Logout,user:null})     
+            dispatch({type:"Logout",value:null})
+            history.push("/");
+      }).catch(()=>{
+          return console.log("cant signout")
       })
   }
 

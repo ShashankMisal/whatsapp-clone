@@ -2,42 +2,32 @@ import React from 'react'
 import './App.css';
 import Sidebar from './Sidebar.js'
 import Chat from './Chat.js'
-import { BrowserRouter as Router,Switch, Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Login from './Login';
-import {useStateValue} from './StateProvider';
 import GroupInfo from './GroupInfo'
+import PrivateRoute from './PrivateRoute';
+
 
 function App() {
 
-  const [{user}, dispatch] = useStateValue();
- 
-  return (  
+  return (
     <div className="app">
-       {!user ? (
-          <Login/>
-        ):(
-        <div className="app__body">
-            <Router>
-                  <Sidebar/>
-              <Switch>
-                  <Route exact path="/rooms/:roomId">
-                    <Chat/>
-                  </Route>
 
-      
-                  <Route exact path="/rooms/:roomId/groupInfo">
-                      <Chat/>
-                      <GroupInfo/>
-                  </Route>  
-              
-              </Switch>
+      <div className="app__body">
 
 
-            </Router>
+        <Route exact path="/">
+          <Login />
+        </Route>
 
-        </div>
-      )}
-</div>
+        <PrivateRoute path="/rooms" component={Sidebar} />
+
+        <PrivateRoute path="/rooms/:roomId" component={Chat} />
+
+        <PrivateRoute path="/rooms/:roomId/groupInfo" component={GroupInfo} />
+
+      </div>
+    </div>
   );
 }
 
